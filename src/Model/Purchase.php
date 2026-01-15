@@ -1,4 +1,6 @@
 <?php
+namespace App\Model;
+use PDO;
 class Purchase
 {
     private $db;

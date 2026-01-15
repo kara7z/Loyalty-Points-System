@@ -1,7 +1,11 @@
 <?php
+namespace App\Controller;
+
+use App\Model\Purchase;
+use App\Model\User;
+
 require_once __DIR__ . '/../models/Purchase.php';
 require_once __DIR__ . '/../models/User.php';
-
 class ShopController
 {
     private $purchaseModel;
@@ -10,7 +14,7 @@ class ShopController
     public function __construct($db)
     {
         $this->purchaseModel = new Purchase($db);
-        $this->userModel = new User($db);
+        // $this->userModel = new User($db);
     }
     
     // Méthode existante - à analyser et compléter
