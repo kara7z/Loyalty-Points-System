@@ -1,16 +1,16 @@
 <?php
-namespace App\Controller;
+// namespace App\Controller;
 
-class PointsController
-{
+// class PointsController
+// {
 
-    public function addPoints(Request $request)
-    {
+//     public function addPoints(Request $request)
+//     {
 
-        $points = $this->pointsCalculator->calculate($request->amount);
+//         $points = $this->pointsCalculator->calculate($request->amount);
 
-        $this->pointsModel->add($userId, $points);
+//         $this->pointsModel->add($userId, $points);
 
-        return $this->redirect('/dashboard');
-    }
-}
+//         return $this->redirect('/dashboard');
+//     }
+// }

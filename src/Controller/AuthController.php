@@ -58,13 +58,23 @@
 // //     echo 'not correct';
 // // }
 
-
+use App\config\Database;
 
 class AuthController
 {
     public function login()
     {
         echo "Login Page";
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $sql= 'SELECT * FROM users where email = :email';
+        $pdo = Database::connect();
+        $stmt= $pdo->prepare($sql);
+        $stmt->execute([]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($user ==null){
+            
+        }
     }
 
     public function register()
