@@ -61,11 +61,9 @@ The project is organized into:
 
 ## Screenshots
 
-```md
 ![Products](preview/products.png)
 ![Checkout](preview/checkout.png)
 ![Points history](preview/points_history.png)
-```
 
 ---
 
