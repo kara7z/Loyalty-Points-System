@@ -1,84 +1,63 @@
 <?php
+namespace App\Controller;
 
-// namespace App\Controller;
-// require __DIR__.'/../config/Database.php';
-// use App\config\Database;
-// use App\Model\User;
-// use App\Service\View;
-// use PDO;
+use App\Core\Request;
+use App\Core\Response;
+use App\Core\Session;
+use App\Core\View;
+use App\Service\AuthService;
 
-// $pdo= Database::connect();
-// class AuthController
-// {
-//     private array $users = [];
-//     function showLogin()
-//     {
-//         (new View())->render('login.html.twig', [
-//             'title' => 'Login',
-//             'user' => 'kara'
-//         ]);
-//     }
-//     function getUsers()
-//     {
-//         global $pdo;
-//         $sql = 'SELECT * FROM users';
-
-//         $stmt = $pdo->prepare($sql);
-//         $stmt->execute();
-//         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//         return $users;
-//     }
-
-//     function login($email, $password)
-//     {
-
-//         global $pdo;
-
-//         $sql = "SELECT * FROM users WHERE email = :email";
-//         $stmt = $pdo->prepare($sql);
-//         $stmt->execute(['email' => $email]);
-//         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-//         if ($user && password_verify($password, $user['password_hash'])) {
-//             return $user;
-//         }
-//         return null;
-//     }
-// }
-// $login = new AuthController();
-
-// $user = $login->login('amina@gmail.com','amina1234');
-// var_dump($user);
-// // var_dump($user);
-// // if($user){
-// //     echo 'Correct';
-
-// // }
-// // else{
-// //     echo 'not correct';
-// // }
-
-use App\config\Database;
-
-class AuthController
+final class AuthController
 {
-    public function login()
+    public function __construct(
+        private View $view,
+        private Response $res,
+        private Session $session,
+        private AuthService $auth
+    ) {}
+
+    public function showLogin(Request $req): void
     {
-        echo "Login Page";
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $sql= 'SELECT * FROM users where email = :email';
-        $pdo = Database::connect();
-        $stmt= $pdo->prepare($sql);
-        $stmt->execute([]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($user ==null){
-            
+        $this->view->render('auth/login.twig');
+    }
+
+    public function login(Request $req): void
+    {
+        try {
+            $this->auth->login((string)$req->input('email'), (string)$req->input('password'));
+            $this->session->flash('msg', 'Welcome ✅');
+            $this->res->redirect('/products');
+        } catch (\Throwable $e) {
+            $this->session->flash('msg', $e->getMessage());
+            $this->res->redirect('/login');
         }
     }
 
-    public function register()
+    public function showRegister(Request $req): void
     {
-        echo "Register Page";
+        $this->view->render('auth/register.twig');
+    }
+
+    public function register(Request $req): void
+    {
+        try {
+            $this->auth->register(
+                (string)$req->input('email'),
+                (string)$req->input('password'),
+                $req->input('name')
+            );
+            $this->session->flash('msg', 'Account created ✅');
+            $this->res->redirect('/products');
+        } catch (\Throwable $e) {
+            $this->session->flash('msg', $e->getMessage());
+            $this->res->redirect('/register');
+        }
+    }
+
+    public function logout(Request $req): void
+    {
+        $this->auth->logout();
+        $this->session->flash('msg', 'Logged out');
+        $this->res->redirect('/login');
     }
 }

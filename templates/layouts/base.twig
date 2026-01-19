@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ShopEasy{% endblock %}</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="{{ userId ? '/products' : '/login' }}">
+        <span class="logo"></span>
+        <span>ShopEasy</span>
+      </a>
+
+      <div class="nav-links">
+        {% if userId %}
+          <a class="pill" href="/products">Products</a>
+          <a class="pill" href="/cart">Cart <span class="badge">{{ cartCount|default(0) }}</span></a>
+          <a class="pill" href="/rewards">Rewards</a>
+          <a class="pill" href="/dashboard">Dashboard</a>
+          <a class="pill" href="/points/history">Points</a>
+          <a class="pill" href="/logout">Logout</a>
+        {% else %}
+          <a class="pill" href="/login">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if flash %}
+      <div class="flash">{{ flash }}</div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

@@ -1,44 +1,33 @@
 <?php
 namespace App\Model;
+
 use PDO;
-class Purchase
+
+final class Purchase
 {
-    private $db;
-    private $table = 'purchases';
-    
-    public function __construct($db)
+    public function __construct(private PDO $db) {}
+
+    public function create(int $userId, float $totalAmount, string $status): int
     {
-        $this->db = $db;
+        $sql = "INSERT INTO purchases (user_id, total_amount, status, created_at)
+                VALUES (:uid, :total, :status, NOW())";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['uid'=>$userId, 'total'=>$totalAmount, 'status'=>$status]);
+        return (int)$this->db->lastInsertId();
     }
-    
-    // Méthode existante
-    public function create($data)
+
+    public function addItem(int $purchaseId, int $productId, string $productName, float $unitPrice, int $quantity): void
     {
-        $sql = "INSERT INTO {$this->table} (user_id, total_amount, status, created_at) 
-                VALUES (:user_id, :total_amount, :status, NOW())";
-        
+        $sql = "INSERT INTO purchase_items (purchase_id, product_id, product_name, unit_price, quantity, line_total)
+                VALUES (:pid,:prid,:name,:price,:qty,:total)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
-            ':user_id' => $data['user_id'],
-            ':total_amount' => $data['total_amount'],
-            ':status' => $data['status']
+            'pid'=>$purchaseId,
+            'prid'=>$productId,
+            'name'=>$productName,
+            'price'=>$unitPrice,
+            'qty'=>$quantity,
+            'total'=>$unitPrice * $quantity
         ]);
-        
-        return $this->db->lastInsertId();
     }
-    
-    // Méthode existante
-    public function getUserPurchases($userId)
-    {
-        $sql = "SELECT * FROM {$this->table} 
-                WHERE user_id = :user_id 
-                ORDER BY created_at DESC";
-        
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([':user_id' => $userId]);
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    
-    // TODO: Ajouter d'autres méthodes selon les besoins
 }

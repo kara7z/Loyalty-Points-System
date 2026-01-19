@@ -1,0 +1,26 @@
+{% extends "layouts/base.twig" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="h1">Welcome back</div>
+    <div class="h2">Login to see products & earn loyalty points</div>
+
+    <form method="post" action="/login">
+      <label class="small">Email</label>
+      <input name="email" type="email" required>
+
+      <label class="small">Password</label>
+      <input name="password" type="password" required>
+
+      <button class="btn" type="submit">Login</button>
+    </form>
+
+    <div class="hr"></div>
+    <div class="row">
+      <div class="muted small">New here? Create an account in 30 seconds.</div>
+      <a href="/register" class="btn secondary">Create account</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

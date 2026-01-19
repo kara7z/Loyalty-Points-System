@@ -1,0 +1,44 @@
+{% extends "layouts/base.twig" %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="h1">Your cart</div>
+
+    {% if items %}
+      <table class="table" style="margin-top:10px;">
+        <tr>
+          <th></th>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+        {% for it in items %}
+          <tr>
+            <td><img class="thumb" src="{{ it.image }}" alt=""></td>
+            <td>{{ it.name }}</td>
+            <td>{{ it.quantity }}</td>
+            <td>${{ it.price }}</td>
+            <td>${{ it.line_total }}</td>
+            <td>
+              <form method="post" action="/cart/remove/{{ it.id }}">
+                <button class="btn danger" type="submit">Remove</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+
+      <div class="row" style="margin-top:14px;">
+        <div class="price">Total: ${{ total }}</div>
+        <a class="btn" href="/checkout">Checkout</a>
+      </div>
+    {% else %}
+      <p class="muted">Cart is empty.</p>
+      <a class="btn secondary" href="/products">Back to products</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

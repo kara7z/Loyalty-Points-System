@@ -1,0 +1,29 @@
+{% extends "layouts/base.twig" %}
+{% block title %}Points history{% endblock %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="h1">Points history</div>
+    <table class="table" style="margin-top:10px;">
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Balance</th>
+      </tr>
+      {% for row in history %}
+        <tr>
+          <td>{{ row.createdat }}</td>
+          <td>{{ row.type }}</td>
+          <td>{{ row.amount }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.balance_after }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="muted">No transactions yet.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

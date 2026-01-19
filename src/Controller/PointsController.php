@@ -1,16 +1,18 @@
 <?php
-// namespace App\Controller;
+namespace App\Controller;
 
-// class PointsController
-// {
+use App\Core\Request;
+use App\Core\View;
+use App\Model\PointsTransaction;
 
-//     public function addPoints(Request $request)
-//     {
+final class PointsController
+{
+    public function __construct(private View $view, private PointsTransaction $tx) {}
 
-//         $points = $this->pointsCalculator->calculate($request->amount);
-
-//         $this->pointsModel->add($userId, $points);
-
-//         return $this->redirect('/dashboard');
-//     }
-// }
+    public function history(Request $req, int $userId): void
+    {
+        $this->view->render('points/history.twig', [
+            'history' => $this->tx->historyByUser($userId)
+        ]);
+    }
+}

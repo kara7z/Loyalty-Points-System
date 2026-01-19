@@ -1,0 +1,29 @@
+{% extends "layouts/base.twig" %}
+{% block title %}Success{% endblock %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="h1">Payment simulated ✅</div>
+    <div class="muted">Your order is recorded (demo).</div>
+
+    <div class="hr"></div>
+
+    <div class="row">
+      <div class="kpi">Purchase #{{ purchase.purchase_id }}</div>
+      <div class="kpi">Method: {{ purchase.payment_method }}</div>
+    </div>
+
+    <div class="row" style="margin-top:10px;">
+      <div class="price">Total: ${{ purchase.total_amount }}</div>
+      <div class="kpi">Points earned: {{ purchase.points_earned }}</div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="row">
+      <a class="btn" href="/products">Back to products</a>
+      <a class="btn secondary" href="/dashboard">Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

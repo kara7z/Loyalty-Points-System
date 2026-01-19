@@ -1,0 +1,45 @@
+{% extends "layouts/base.twig" %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="h1">Checkout</div>
+    <div class="muted small">Fake payment only — no real processing. We only ask your account password to confirm.</div>
+
+    <div class="row" style="margin-top:10px;">
+      <div class="price">Total: ${{ total }}</div>
+      <span class="kpi">You will earn points after pay</span>
+    </div>
+
+    <div class="hr"></div>
+
+    <form method="post" action="/checkout">
+      <label class="small">Confirm password</label>
+      <input name="password" type="password" required>
+
+      <label class="small">Payment method</label>
+      <select name="method">
+        <option value="test_card">Test Card</option>
+        <option value="cash_on_delivery">Cash on delivery (demo)</option>
+        <option value="paypal_demo">PayPal demo</option>
+      </select>
+
+      <button class="btn" type="submit">Pay (simulate)</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="h2">Items</div>
+    <table class="table">
+      <tr><th>Product</th><th>Qty</th><th>Line total</th></tr>
+      {% for it in items %}
+        <tr>
+          <td>{{ it.name }}</td>
+          <td>{{ it.quantity }}</td>
+          <td>${{ it.line_total }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

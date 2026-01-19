@@ -1,0 +1,29 @@
+{% extends "layouts/base.twig" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="stack">
+  <div class="card">
+    <div class="h1">Create account</div>
+    <div class="h2">Join the loyalty program</div>
+
+    <form method="post" action="/register">
+      <label class="small">Name (optional)</label>
+      <input name="name" type="text">
+
+      <label class="small">Email</label>
+      <input name="email" type="email" required>
+
+      <label class="small">Password</label>
+      <input name="password" type="password" required>
+
+      <button class="btn" type="submit">Register</button>
+    </form>
+
+    <div class="hr"></div>
+    <div class="row">
+      <div class="muted small">Already have an account?</div>
+      <a href="/login" class="btn secondary">Go to login</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
