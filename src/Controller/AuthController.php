@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Core\Request;
@@ -9,23 +10,23 @@ use App\Service\AuthService;
 
 final class AuthController
 {
-    public function __construct(
+    function __construct(
         private View $view,
         private Response $res,
         private Session $session,
         private AuthService $auth
     ) {}
 
-    public function showLogin(Request $req): void
+    function showLogin(Request $req): void
     {
         $this->view->render('auth/login.twig');
     }
 
-    public function login(Request $req): void
+    function login(Request $req): void
     {
         try {
             $this->auth->login((string)$req->input('email'), (string)$req->input('password'));
-            $this->session->flash('msg', 'Welcome ✅');
+            $this->session->flash('msg', 'Welcome');
             $this->res->redirect('/products');
         } catch (\Throwable $e) {
             $this->session->flash('msg', $e->getMessage());
@@ -33,12 +34,12 @@ final class AuthController
         }
     }
 
-    public function showRegister(Request $req): void
+    function showRegister(Request $req): void
     {
         $this->view->render('auth/register.twig');
     }
 
-    public function register(Request $req): void
+    function register(Request $req): void
     {
         try {
             $this->auth->register(
@@ -46,7 +47,7 @@ final class AuthController
                 (string)$req->input('password'),
                 $req->input('name')
             );
-            $this->session->flash('msg', 'Account created ✅');
+            $this->session->flash('msg', 'Account created');
             $this->res->redirect('/products');
         } catch (\Throwable $e) {
             $this->session->flash('msg', $e->getMessage());
@@ -54,7 +55,7 @@ final class AuthController
         }
     }
 
-    public function logout(Request $req): void
+    function logout(Request $req): void
     {
         $this->auth->logout();
         $this->session->flash('msg', 'Logged out');

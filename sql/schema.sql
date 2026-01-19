@@ -1,7 +1,5 @@
-DROP DATABASE shopeasy;
 CREATE DATABASE shopeasy;
 use shopeasy;
-
 CREATE TABLE users (
   id INT PRIMARY KEY AUTO_INCREMENT,
   email VARCHAR(100) UNIQUE NOT NULL,
@@ -54,7 +52,7 @@ CREATE TABLE purchase_items (
   product_id INT NOT NULL,
   product_name VARCHAR(150) NOT NULL,
   unit_price DECIMAL(10,2) NOT NULL,
- shopeasy quantity INT NOT NULL,
+  quantity INT NOT NULL,
   line_total DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (purchase_id) REFERENCES purchases(id) ON DELETE CASCADE
 );

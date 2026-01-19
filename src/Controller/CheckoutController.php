@@ -42,7 +42,7 @@ final class CheckoutController
             $this->res->redirect('/products');
         }
 
-        // Password confirmation (basic, safer than collecting card/full name)
+       
         $password = (string)$req->input('password', '');
         if (trim($password) === '') {
             $this->session->flash('msg', 'Password required to confirm checkout');
@@ -67,7 +67,7 @@ final class CheckoutController
             'payment_method' => $method
         ]);
 
-        $this->session->flash('msg', 'Payment simulated ✅ (no real charge)');
+        $this->session->flash('msg', 'Payment');
         $this->res->redirect('/checkout/success');
     }
 

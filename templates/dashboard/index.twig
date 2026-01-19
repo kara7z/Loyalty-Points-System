@@ -4,18 +4,23 @@
 <div class="stack">
   <div class="card">
     <div class="h1">Dashboard</div>
-    <div class="muted">Welcome <strong>{{ user.name|default('User')|capitalize }}</strong></div>
 
-    <div class="hr"></div>
+    {% if user is empty %}
+      <div class="muted">User not found in database.</div>
+    {% else %}
+      <div class="muted">Welcome <strong>{{ user.name|default('User')|capitalize }}</strong></div>
 
-    <div class="row">
-      <div class="price">{{ user.total_points }} points</div>
-      <span class="kpi">Loyalty balance</span>
-    </div>
+      <div class="hr"></div>
 
-    <p class="muted small" style="margin-top:10px;">
-      Tip: checkout to earn points automatically, then redeem rewards.
-    </p>
+      <div class="row">
+        <div class="price">{{ user.total_points }} points</div>
+        <span class="kpi">Loyalty balance</span>
+      </div>
+
+      <p class="muted small" style="margin-top:10px;">
+        Rule: <strong>10 points per 100$</strong>. Example: total 199$ → 10 pts, total 250$ → 20 pts.
+      </p>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

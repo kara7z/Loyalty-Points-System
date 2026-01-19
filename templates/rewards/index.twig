@@ -7,30 +7,39 @@
     <div class="muted">Redeem your points for rewards.</div>
   </div>
 
-  <div class="grid">
-    {% for r in rewards %}
-      <div class="card">
-        <div class="row">
-          <strong>{{ r.name }}</strong>
-          <span class="kpi">{{ r.points_required }} pts</span>
-        </div>
-        <div class="muted small">{{ r.description }}</div>
-
-        <div class="row" style="margin-top:12px;">
-          {% if r.stock == 0 %}
-            <span class="kpi">Out of stock</span>
-          {% elseif r.stock > 0 %}
-            <span class="kpi">Stock: {{ r.stock }}</span>
-          {% else %}
-            <span class="kpi">Unlimited</span>
-          {% endif %}
-
-          <form method="post" action="/rewards/redeem/{{ r.id }}">
-            <button class="btn" type="submit" {% if r.stock == 0 %}disabled{% endif %}>Redeem</button>
-          </form>
-        </div>
+  {% if rewards is empty %}
+    <div class="card">
+      <div class="h2">No rewards found</div>
+      <div class="muted small">
+        Import <code>sql/seed.sql</code> (or insert rewards manually) to see rewards here.
       </div>
-    {% endfor %}
-  </div>
+    </div>
+  {% else %}
+    <div class="grid">
+      {% for r in rewards %}
+        <div class="card">
+          <div class="row">
+            <strong>{{ r.name }}</strong>
+            <span class="kpi">{{ r.points_required }} pts</span>
+          </div>
+          <div class="muted small">{{ r.description }}</div>
+
+          <div class="row" style="margin-top:12px;">
+            {% if r.stock == 0 %}
+              <span class="kpi">Out of stock</span>
+            {% elseif r.stock > 0 %}
+              <span class="kpi">Stock: {{ r.stock }}</span>
+            {% else %}
+              <span class="kpi">Unlimited</span>
+            {% endif %}
+
+            <form method="post" action="/rewards/redeem/{{ r.id }}">
+              <button class="btn" type="submit" {% if r.stock == 0 %}disabled{% endif %}>Redeem</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

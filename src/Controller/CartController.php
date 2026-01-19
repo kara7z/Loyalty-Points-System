@@ -29,7 +29,7 @@ final class CartController
         $id = (int)($params['id'] ?? 0);
         $qty = (int)$req->input('qty', 1);
         $this->cart->add($id, $qty);
-        $this->session->flash('msg', 'Added to cart ✅');
+        $this->session->flash('msg', 'Added to cart');
         $this->res->redirect('/cart');
     }
 

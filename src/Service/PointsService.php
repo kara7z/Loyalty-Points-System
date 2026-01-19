@@ -17,7 +17,9 @@ final class PointsService
 
     public function earn(int $userId, int $points, string $description): int
     {
-        $this->db->beginTransaction();
+        $ownTx = !$this->db->inTransaction();
+        if ($ownTx) $this->db->beginTransaction();
+
         try {
             $u = $this->users->findById($userId);
             if (!$u) throw new \RuntimeException('USER_NOT_FOUND');
@@ -26,17 +28,19 @@ final class PointsService
             $this->users->updatePoints($userId, $newTotal);
             $this->tx->add($userId, 'earned', $points, $description, $newTotal);
 
-            $this->db->commit();
+            if ($ownTx) $this->db->commit();
             return $newTotal;
         } catch (\Throwable $e) {
-            $this->db->rollBack();
+            if ($ownTx && $this->db->inTransaction()) $this->db->rollBack();
             throw $e;
         }
     }
 
     public function redeem(int $userId, int $rewardId): int
     {
-        $this->db->beginTransaction();
+        $ownTx = !$this->db->inTransaction();
+        if ($ownTx) $this->db->beginTransaction();
+
         try {
             $u = $this->users->findById($userId);
             if (!$u) throw new \RuntimeException('USER_NOT_FOUND');
@@ -56,10 +60,10 @@ final class PointsService
 
             $this->tx->add($userId, 'redeemed', $cost, 'Reward: ' . $reward['name'], $newTotal);
 
-            $this->db->commit();
+            if ($ownTx) $this->db->commit();
             return $newTotal;
         } catch (\Throwable $e) {
-            $this->db->rollBack();
+            if ($ownTx && $this->db->inTransaction()) $this->db->rollBack();
             throw $e;
         }
     }

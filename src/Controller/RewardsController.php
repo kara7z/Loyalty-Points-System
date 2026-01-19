@@ -28,7 +28,7 @@ final class RewardsController
         try {
             $id = (int)($params['id'] ?? 0);
             $this->points->redeem($userId, $id);
-            $this->session->flash('msg', 'Reward redeemed ✅');
+            $this->session->flash('msg', 'Reward redeemed');
         } catch (\Throwable $e) {
             $this->session->flash('msg', $e->getMessage());
         }
